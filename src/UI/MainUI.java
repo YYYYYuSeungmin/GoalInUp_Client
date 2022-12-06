@@ -7,6 +7,7 @@ import UI.Component.TitleLabel;
 import Entity.Goal;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.*;
@@ -32,6 +33,9 @@ public class MainUI extends JFrame implements ListSelectionListener {
     JLabel todayGoalTitle;
     JList todayGoalList;
     JScrollPane scroll;
+
+    JProgressBar progressRate = new JProgressBar(0, 100);
+
     JLabel nameLabel = new JLabel();
     JButton addGoalBtn;
     DefaultListModel model;
@@ -115,7 +119,7 @@ public class MainUI extends JFrame implements ListSelectionListener {
         todayGoalPanel.setLayout(null);
         todayGoalPanel.setBackground(Color.lightGray);
         todayGoalPanel.setOpaque(true);
-        todayGoalPanel.setBounds(1250, 105, 520, 300);
+        todayGoalPanel.setBounds(1250, 105, 520, 390);
 
         todayGoalTitle.setSize(300, 50);
         todayGoalTitle.setLocation(30, 10);
@@ -143,6 +147,29 @@ public class MainUI extends JFrame implements ListSelectionListener {
         scroll.setBounds(0, 65, 520, 230);
         todayGoalPanel.add(scroll);
 
+
+        JLabel progressRateLabel = new JLabel("성취율");
+        progressRateLabel.setFont(new Font("SanSerif", Font.BOLD, 25));
+        progressRateLabel.setSize(200, 30);
+        progressRateLabel.setLocation(0, 320);
+        todayGoalPanel.add(progressRateLabel);
+
+        progressRate.setSize(520, 30);
+        progressRate.setLocation(0, 355);
+        progressRate.setForeground(Color.LIGHT_GRAY);
+        progressRate.setValue(0);
+        progressRate.setStringPainted(true);
+        progressRate.setFont(new Font("SanSerif", Font.BOLD, 25));
+
+        int count = goalList.size();
+        int success = 0;
+        for (int i = 0; i < count; i++){
+            if (goalList.get(i).isGoal()) success += 1;
+        }
+        float rate = ((float) success / count) * 100;
+        int achievementRate = (int) rate;
+        progressRate.setValue(achievementRate);
+        todayGoalPanel.add(progressRate);
 
         this.add(todayGoalPanel);
         this.revalidate();

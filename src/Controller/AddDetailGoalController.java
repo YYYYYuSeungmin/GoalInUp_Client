@@ -34,6 +34,7 @@ public class AddDetailGoalController {
         detailGoal.setContents(addDetailGoalUI.getcontents());
         detailGoal.setStartDay(addDetailGoalUI.getStartDay());
         detailGoal.setEndDay(addDetailGoalUI.getEndDay());
+        detailGoal.setGoal(addDetailGoalUI.isSuccess());
     }
     public void insertDetailGoal(){
         detailGoalHandler = new DetailGoalHandler();

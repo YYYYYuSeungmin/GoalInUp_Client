@@ -21,6 +21,7 @@ public class GoalUI extends JFrame implements ListSelectionListener{
     JButton updateBtn = new JButton(); // 목표 수정 버튼
     JButton deleteBtn = new JButton(); // 목표 삭제 버튼
     JButton addDetailGoalBtn = new JButton();
+    JProgressBar progressRate = new JProgressBar(0, 100);
     JLabel dateLabel = new JLabel(); // 시작 ~ 끝
 //    JList detailGoal; // 세부 목표 리스트
     JLabel successLabel = new JLabel();
@@ -84,6 +85,33 @@ public class GoalUI extends JFrame implements ListSelectionListener{
         successLabel.setSize(600, 30);
         successLabel.setLocation(0, 110);
         this.add(successLabel);
+
+        JLabel progressRateLabel = new JLabel("성취율");
+        progressRateLabel.setFont(new Font("SanSerif", Font.BOLD, 25));
+        progressRateLabel.setSize(150, 30);
+        progressRateLabel.setLocation(0, 160);
+        this.add(progressRateLabel);
+
+        progressRate.setSize(300, 30);
+        progressRate.setLocation(0, 200);
+        progressRate.setForeground(Color.LIGHT_GRAY);
+        progressRate.setValue(0);
+        progressRate.setStringPainted(true);
+        progressRate.setFont(new Font("SanSerif", Font.BOLD, 25));
+
+        int count = detailGoalList.size();
+        if (count != 0){
+            int success = 0;
+            for (int i = 0; i < count; i++){
+                if (detailGoalList.get(i).isGoal()) success += 1;
+            }
+            float rate = ((float) success / count) * 100;
+            int achievementRate = (int) rate;
+            progressRate.setValue(achievementRate);
+            this.add(progressRate);
+        }
+
+
 
         MyPanel panel = new MyPanel();
         panel.setLocation(0,260);
