@@ -16,9 +16,9 @@ public class UpdateGoalUI extends JFrame {
     JTextField titleText = new JTextField();
 
     JButton updateButton = new JButton();
-    JRadioButton goalSuccess[] = new JRadioButton[2];
-    String successName[] = {"달성", "진행중"};
-    ButtonGroup OXBox = new ButtonGroup();
+//    JRadioButton goalSuccess[] = new JRadioButton[2];
+//    String successName[] = {"달성", "진행중"};
+//    ButtonGroup OXBox = new ButtonGroup();
 
     Goal goal;
     public UpdateGoalUI(Goal goal){
@@ -93,21 +93,21 @@ public class UpdateGoalUI extends JFrame {
         updateButton.setLocation(430, 200);
         this.add(updateButton);
 
-        for (int i = 0; i < 2; i++){
-            goalSuccess[i] = new JRadioButton(successName[i]);
-            goalSuccess[i].setSize(110, 50);
-            goalSuccess[i].setFont(new Font("SanSerif", Font.BOLD, 25));
-            goalSuccess[i].setLocation(15 + (115 * i), 200);
-            OXBox.add(goalSuccess[i]);
-            this.add(goalSuccess[i]);
-        }
-        if (goal.isGoal()){
-            goalSuccess[0].setSelected(true);
-            goalSuccess[1].setSelected(false);
-        } else{
-            goalSuccess[0].setSelected(false);
-            goalSuccess[1].setSelected(true);
-        }
+//        for (int i = 0; i < 2; i++){
+//            goalSuccess[i] = new JRadioButton(successName[i]);
+//            goalSuccess[i].setSize(110, 50);
+//            goalSuccess[i].setFont(new Font("SanSerif", Font.BOLD, 25));
+//            goalSuccess[i].setLocation(15 + (115 * i), 200);
+//            OXBox.add(goalSuccess[i]);
+//            this.add(goalSuccess[i]);
+//        }
+//        if (goal.isGoal()){
+//            goalSuccess[0].setSelected(true);
+//            goalSuccess[1].setSelected(false);
+//        } else{
+//            goalSuccess[0].setSelected(false);
+//            goalSuccess[1].setSelected(true);
+//        }
 
         this.revalidate();
         this.repaint();
@@ -116,7 +116,7 @@ public class UpdateGoalUI extends JFrame {
         goal.setTitle(titleText.getText());
         goal.setStartDay(startDayText.getText());
         goal.setEndDay(endDayText.getText());
-        goal.setGoal(goalSuccess[0].isSelected());
+//        goal.setGoal(goalSuccess[0].isSelected());
     }
     public Goal getGoal(){
         return goal;

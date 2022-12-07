@@ -1,6 +1,7 @@
 package Controller;
 
 import DAO.DetailGoalSocket;
+import DAO.GoalSocket;
 import Entity.DetailGoal;
 import Entity.Goal;
 import UI.AddDetailGoalUI;
@@ -16,15 +17,18 @@ import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 public class AddDetailGoalController {
     AddDetailGoalUI addDetailGoalUI;
     DetailGoalSocket detailGoalSocket;
+    GoalController goalController;
     Goal goal;
     GoalUI goalUI;
     MainUI mainUI;
     DetailGoal detailGoal;
+    GoalSocket goalSocket;
 
-    public AddDetailGoalController(Goal goal, GoalUI goalUI, MainUI mainUI){
+    public AddDetailGoalController(Goal goal, GoalUI goalUI, MainUI mainUI, GoalController goalController){
         this.goal = goal;
         this.goalUI = goalUI;
         this.mainUI = mainUI;
+        this.goalController = goalController;
 
         addDetailGoalUI = new AddDetailGoalUI(this.goal);
         addDetailGoalUI.setAddDetailGoalBtnListener(new addGoalButtonListener());
@@ -59,6 +63,13 @@ public class AddDetailGoalController {
 
             addDetailGoalUI.dispose();
             goalUI.dispose();
+
+            goalSocket = new GoalSocket();
+            mainUI.setGoalList(goalSocket.getGoalList(goal.getUserID()));
+            mainUI.removeGoalPanel();
+            mainUI.drawTodayGoal();
+
+            goalController.drawGoalUI(goal);
         }
     }
 }

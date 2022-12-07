@@ -1,5 +1,6 @@
 package UI;
 
+import Controller.GoalController;
 import Controller.Start;
 import Entity.DetailGoal;
 import Entity.Goal;
@@ -80,6 +81,7 @@ public class GoalUI extends JFrame implements ListSelectionListener{
         if (goal.isGoal()){
             sign = "O";
         }
+
         successLabel.setText("달성 여부 :  " + sign);
         successLabel.setFont(new Font("SanSerif", Font.BOLD, 25));
         successLabel.setSize(600, 30);
@@ -126,6 +128,20 @@ public class GoalUI extends JFrame implements ListSelectionListener{
         addDetailGoalBtn.setBackground(Color.lightGray);
         this.add(addDetailGoalBtn);
     }
+
+    private void checkIsGoal(){
+        int size = detailGoalList.size();
+        int count = 0;
+        for (int i = 0; i < size; i++){
+            if(detailGoalList.get(i).isGoal() == true){
+                count++;
+            }
+        }
+        if (count == size){
+            goal.setGoal(true);
+        }
+    }
+
     class MyPanel extends JPanel{
         public void paintComponent(Graphics g){
             super.paintComponent(g);
@@ -180,11 +196,7 @@ public class GoalUI extends JFrame implements ListSelectionListener{
         if (!e.getValueIsAdjusting()) {
             if(detailGoalsJList.getSelectedValue() != null){
                 select = detailGoalsJList.getSelectedIndex();
-                System.out.println("세부 목표 리스트에서 선택된 값 인덱스 : " + select);
-                System.out.println(detailGoalList.get(0).getTitle());
                 Start.createDetailGoalInfoController(this, goal, detailGoalList.get(select), mainUI);
-                //세부 목표 수정 or 삭제 창 나와야 함. 아마 대화형 옵션?
-//                System.out.println(detailGoalList.get(select).getContents());
             }
         }
     }

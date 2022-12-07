@@ -32,9 +32,7 @@ public class AddGoalContorller {
         goal.setStartDay(addgoalUI.getStartDay());
         goal.setEndDay(addgoalUI.getEndDay());
         goal.setTitle(addgoalUI.getTitle());
-        goal.setGoal(addgoalUI.getGoal());
-
-
+//        goal.setGoal(addgoalUI.getGoal());
     }
 
     public void insertGoal(){

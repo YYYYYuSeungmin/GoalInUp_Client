@@ -25,6 +25,7 @@ public class DetailGoalInfoUI extends JFrame {
     ButtonGroup OXBox = new ButtonGroup();
 
     Goal goal;
+    MainUI mainUI;
     DetailGoal detailGoal;
     public DetailGoalInfoUI(Goal goal, DetailGoal detailGoal){
         this.goal = goal;
@@ -110,7 +111,7 @@ public class DetailGoalInfoUI extends JFrame {
             OXBox.add(goalSuccess[i]);
             this.add(goalSuccess[i]);
         }
-        if (goal.isGoal()){
+        if (detailGoal.isGoal()){
             goalSuccess[0].setSelected(true);
             goalSuccess[1].setSelected(false);
         } else{
@@ -162,10 +163,5 @@ public class DetailGoalInfoUI extends JFrame {
     }
     public void setDeleteButtonListener(ActionListener listener){
         deleteButton.addActionListener(listener);
-    }
-    public static void main(String[] args){
-        Goal goal = new Goal();
-        DetailGoal detailGoal = new DetailGoal();
-        new DetailGoalInfoUI(goal, detailGoal);
     }
 }

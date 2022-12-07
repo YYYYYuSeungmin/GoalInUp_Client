@@ -50,6 +50,8 @@ public class UpdateGoalController {
             goalUI.dispose();
             UGUI.dispose();
 
+            goalSocket = new GoalSocket();
+            goal = goalSocket.getGoal(goal.getgID());
             Start.createGoalController(goal, mUI);
         }
     }

@@ -11,7 +11,7 @@ public class UserSocket {
     Socket socket = new Socket();
     InetSocketAddress sockAddr = null;
     String SERVER_IP = "192.168.13.1";
-    int SERVER_PORT = 1234;
+    int SERVER_PORT = 9999;
 
     InputStream is;
     OutputStream os;

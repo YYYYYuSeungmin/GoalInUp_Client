@@ -1,6 +1,8 @@
 package Controller;
 
+import DAO.DetailGoalSocket;
 import DAO.GoalSocket;
+import Entity.DetailGoal;
 import Entity.Goal;
 import Entity.User;
 import UI.Calendar;
@@ -13,7 +15,9 @@ import java.util.ArrayList;
 
 public class MainController {
     ArrayList<Goal> goalList;
-    GoalSocket gHandle;
+    ArrayList<DetailGoal> detailGoalList;
+    DetailGoalSocket detailGoalSocket;
+    GoalSocket goalSocket;
     Calendar calendar;
     User user;
     MainUI mUI;
@@ -24,18 +28,18 @@ public class MainController {
         this.user = user;
         calendar = new Calendar();
 
-        goalList = new ArrayList<>();
-        drawTodayGoal(user.getId());
+        goalSocket = new GoalSocket();
+        goalList = goalSocket.getGoalList(user.getId());
+
+        drawTodayGoal(user.getName());
     }
     private void setLisetner(){
         calendar.setdayBtnListener(new dayButtonListener());
         calendar.setprevMonthBtnListener(new prevMonthListener());
         calendar.setnextMonthBtnListener(new nextMonthListener());
     }
-    private void drawTodayGoal(String userID){
-        gHandle = new GoalSocket();
-        goalList = gHandle.getGoalList(userID);
-        mUI = new MainUI(goalList, userID, calendar);
+    private void drawTodayGoal(String userName){
+        mUI = new MainUI(goalList, userName, calendar);
         mUI.drawAll();
 
         mUI.setAddGoalBtnListener(new createGoalButtonListener());

@@ -11,7 +11,7 @@ public class DetailGoalSocket {
     Socket socket = new Socket();
     InetSocketAddress sockAddr = null;
     String SERVER_IP = "192.168.13.1";
-    int SERVER_PORT = 1234;
+    int SERVER_PORT = 9999;
 
     InputStream is;
     OutputStream os;
@@ -47,12 +47,8 @@ public class DetailGoalSocket {
 
             pw.println(gID);
             pw.flush();
-            //세부 목표를 찾고자 하는 큰 목표의 고유 id값을 줌.
-            System.out.println(gID + "의 세부 목표 리스트 요청");
 
             int count = Integer.parseInt(br.readLine());
-            //총 몇개의 세부 목표가 있는지 받는다.
-            System.out.println("세부 목표 개수 : " + count);
 
             for (int i = 0; i < count; i++){
                 DetailGoal dGoal = new DetailGoal();
@@ -124,7 +120,7 @@ public class DetailGoalSocket {
 
         return check;
     }
-    public boolean deleteDetailGoal(int detail_gid){
+    public boolean deleteDetailGoal(int detail_gid, int gid){
         boolean check;
         System.out.println("세부 목표 삭제 요청");
         try{
@@ -134,6 +130,7 @@ public class DetailGoalSocket {
             pw.flush();
 
             pw.println(detail_gid);
+            pw.println(gid);
             pw.flush();
             check = Boolean.parseBoolean(br.readLine());
         } catch (IOException e) {

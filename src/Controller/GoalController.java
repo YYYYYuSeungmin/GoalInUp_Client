@@ -8,6 +8,7 @@ import UI.GoalUI;
 import UI.MainUI;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -60,6 +61,9 @@ public class GoalController {
             gUI.dispose();
         }
     }
+    public void createAddDetailGoalController(){
+        AddDetailGoalController addDetailGoalController = new AddDetailGoalController(goal, gUI, mUI, this);
+    }
 
     class updateGoalButtonListener implements ActionListener{
         @Override
@@ -72,8 +76,7 @@ public class GoalController {
     class addDetailGoalButtonListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e){
-            System.out.println("진입");
-            AddDetailGoalController addDetailGoalController = new AddDetailGoalController(goal, gUI, mUI);
+            createAddDetailGoalController();
 //            gUI.dispose();
         }
     }

@@ -88,16 +88,16 @@ public class AddGoalUI extends JFrame {
         addButton.setLocation(430, 200);
         this.add(addButton);
 
-        for (int i = 0; i < 2; i++){
-            goalSuccess[i] = new JRadioButton(successName[i]);
-            goalSuccess[i].setSize(110, 50);
-            goalSuccess[i].setFont(new Font("SanSerif", Font.BOLD, 25));
-            goalSuccess[i].setLocation(15 + (115 * i), 200);
-            OXBox.add(goalSuccess[i]);
-            this.add(goalSuccess[i]);
-        }
-        goalSuccess[0].setSelected(false);
-        goalSuccess[1].setSelected(true);
+//        for (int i = 0; i < 2; i++){
+//            goalSuccess[i] = new JRadioButton(successName[i]);
+//            goalSuccess[i].setSize(110, 50);
+//            goalSuccess[i].setFont(new Font("SanSerif", Font.BOLD, 25));
+//            goalSuccess[i].setLocation(15 + (115 * i), 200);
+//            OXBox.add(goalSuccess[i]);
+//            this.add(goalSuccess[i]);
+//        }
+//        goalSuccess[0].setSelected(false);
+//        goalSuccess[1].setSelected(true);
 
 
         this.revalidate();
@@ -114,14 +114,15 @@ public class AddGoalUI extends JFrame {
     public String getTitle(){
         return titleText.getText();
     }
-    public boolean getGoal() {
-        if (goalSuccess[0].isSelected() == true){
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
+//    public boolean getGoal() {
+//        if (goalSuccess[0].isSelected() == true){
+//            return true;
+//        }
+//
+//        else {
+//            return false;
+//        }
+//    }
     public void setAddButtonListener(ActionListener listener){
         addButton.addActionListener(listener);
     }

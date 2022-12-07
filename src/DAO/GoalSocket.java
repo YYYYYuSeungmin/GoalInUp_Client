@@ -11,7 +11,7 @@ public class GoalSocket {
     Socket socket = new Socket();
     InetSocketAddress sockAddr = null;
     String SERVER_IP = "192.168.13.1";
-    int SERVER_PORT = 1234;
+    int SERVER_PORT = 9999;
 
     InputStream is;
     OutputStream os;
@@ -120,7 +120,6 @@ public class GoalSocket {
             msg = "B04";
             pw.println(msg);
             pw.flush();
-            System.out.println("수정 요청하는 목표 g_ID : " + goal.getgID());
 
             pw.println(goal.getgID());
             pw.println(goal.getUserID());
@@ -139,6 +138,33 @@ public class GoalSocket {
         }
         if (msg.equals("0")) return true;
         else return false;
+    }
+
+    public Goal getGoal(int gID){
+        String msg = "B05"; //목표 요청 메세지
+        Goal goal = new Goal();
+        try{
+            msg = "B05";
+            pw.println(msg);
+            pw.flush();
+
+            pw.println(gID);
+            pw.flush();
+
+            goal.setgID(Integer.parseInt(br.readLine()));
+            goal.setUserID(br.readLine());
+            goal.setTitle(br.readLine());
+            goal.setStartDay(br.readLine());
+            goal.setEndDay(br.readLine());
+            goal.setGoal(Boolean.parseBoolean(br.readLine()));
+
+        } catch(IOException e){
+            e.printStackTrace();
+        } finally {
+            closeSocket();
+        }
+
+        return goal;
     }
     private void closeSocket(){
         try {

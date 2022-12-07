@@ -2,6 +2,8 @@ package UI;
 
 import Controller.MainController;
 import Controller.Start;
+import DAO.DetailGoalSocket;
+import Entity.DetailGoal;
 import UI.Component.TitleLabel;
 
 import Entity.Goal;
@@ -42,8 +44,11 @@ public class MainUI extends JFrame implements ListSelectionListener {
     DefaultListModel model;
     ArrayList<Goal> goalList;
     ArrayList<Goal> selectGoalList;
+    ArrayList<DetailGoal> detailGoalList;
+    DetailGoalSocket detailGoalSocket;
     String userName;
-    int count = 0; //완료도 표시할 때 사용 될 듯?
+    int rate = 0;
+    int count = 0;
 
     public MainUI(ArrayList<Goal> goalList, String userName, Calendar calendar) {
         this.goalList = goalList;
@@ -121,6 +126,7 @@ public class MainUI extends JFrame implements ListSelectionListener {
     //오늘의 목표를 그리는 메서드
     public void drawTodayGoal() {
         DefaultListModel model = new DefaultListModel();
+        this.rate = getRate();
 
         todayGoalPanel = new JPanel();
         todayGoalTitle = new JLabel();
@@ -166,18 +172,9 @@ public class MainUI extends JFrame implements ListSelectionListener {
         progressRate.setSize(520, 30);
         progressRate.setLocation(0, 355);
         progressRate.setForeground(Color.LIGHT_GRAY);
-        progressRate.setValue(0);
+        progressRate.setValue(rate);
         progressRate.setStringPainted(true);
         progressRate.setFont(new Font("SanSerif", Font.BOLD, 25));
-
-        int count = goalList.size();
-        int success = 0;
-        for (int i = 0; i < count; i++){
-            if (goalList.get(i).isGoal()) success += 1;
-        }
-        float rate = ((float) success / count) * 100;
-        int achievementRate = (int) rate;
-        progressRate.setValue(achievementRate);
         todayGoalPanel.add(progressRate);
 
         this.add(todayGoalPanel);
@@ -194,7 +191,6 @@ public class MainUI extends JFrame implements ListSelectionListener {
         model = new DefaultListModel();
         selectGoalList = new ArrayList<>();
         count = goalList.size();
-        System.out.println("COUNT : " + count);
         for (int i = 0; i < count; i++) {
             boolean check = MainUI.compareDay(goalList.get(i).getStartDay(), goalList.get(i).getEndDay(), selectDay);
 
@@ -210,6 +206,32 @@ public class MainUI extends JFrame implements ListSelectionListener {
             selectGoalList.add(goalList.get(i));
         }
         return model;
+    }
+
+    private int getRate(){
+        int size = goalList.size();
+        int count = 0;
+        int success = 0;
+        for (int i = 0; i < size; i++){
+            detailGoalSocket = new DetailGoalSocket();
+            detailGoalList = detailGoalSocket.getDetailGoals(goalList.get(i).getgID());
+
+            int detailSize = detailGoalList.size();
+            count += detailSize;
+            for (int j = 0; j < detailSize; j++){
+                if(detailGoalList.get(j).isGoal() == true){
+                    success++;
+                }
+            }
+        }
+        if(count != 0){
+            float rate = ((float)success / count ) * 100;
+            System.out.println("RATE : " + rate);
+            return (int) rate;
+        }
+        else{
+            return 0;
+        }
     }
     //선택한 날짜를 기준으로 목표가 표시 되어야 할 지 말아야할 지 결정하는 메서드
     public static boolean compareDay(String startDate, String endDate, String selectDay){
