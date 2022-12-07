@@ -1,17 +1,18 @@
 package Controller;
 
-import DAO.GoalHandler;
+import DAO.GoalSocket;
 import Entity.Goal;
 import UI.GoalUI;
 import UI.MainUI;
 import UI.UpdateGoalUI;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class UpdateGoalController {
     UpdateGoalUI UGUI;
-    GoalHandler goalHandler;
+    GoalSocket goalSocket;
     GoalUI goalUI;
     Goal goal;
     MainUI mUI;
@@ -32,11 +33,18 @@ public class UpdateGoalController {
         @Override
         public void actionPerformed(ActionEvent e){
             setGoal();
-            goalHandler = new GoalHandler();
-            goalHandler.updateGoal(goal);
+            goalSocket = new GoalSocket();
+            boolean check = goalSocket.updateGoal(goal);
 
-            goalHandler = new GoalHandler();
-            mUI.setGoalList(goalHandler.getGoalList(goal.getUserID()));
+            if (check == true){
+                JOptionPane.showMessageDialog(mUI, "목표 수정 완료", "목표 수정", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                JOptionPane.showMessageDialog(mUI, "목표 수정 실패", "목표 수정", JOptionPane.ERROR_MESSAGE);
+            }
+            
+            goalSocket = new GoalSocket();
+            mUI.setGoalList(goalSocket.getGoalList(goal.getUserID()));
             mUI.removeGoalPanel();
             mUI.drawTodayGoal();
             goalUI.dispose();

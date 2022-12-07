@@ -5,14 +5,13 @@ import Entity.Goal;
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
-public class GoalHandler {
+public class GoalSocket {
     Socket socket = new Socket();
     InetSocketAddress sockAddr = null;
     String SERVER_IP = "192.168.13.1";
-    int SERVER_PORT = 6420;
+    int SERVER_PORT = 1234;
 
     InputStream is;
     OutputStream os;
@@ -20,7 +19,7 @@ public class GoalHandler {
     PrintWriter pw;
 
     ArrayList<Goal> goalList;
-    public GoalHandler(){
+    public GoalSocket(){
         try{ //소켓 및 기본적인 스트림 열기
             sockAddr = new InetSocketAddress(SERVER_IP, SERVER_PORT);
             socket.connect(sockAddr);

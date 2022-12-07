@@ -1,18 +1,17 @@
 package DAO;
 
 import Entity.DetailGoal;
-import Entity.Goal;
 
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class DetailGoalHandler {
+public class DetailGoalSocket {
     Socket socket = new Socket();
     InetSocketAddress sockAddr = null;
     String SERVER_IP = "192.168.13.1";
-    int SERVER_PORT = 6420;
+    int SERVER_PORT = 1234;
 
     InputStream is;
     OutputStream os;
@@ -22,7 +21,7 @@ public class DetailGoalHandler {
     ArrayList<DetailGoal> detailGoalsList;
     private DetailGoal detailGoal;
 
-    public DetailGoalHandler(){
+    public DetailGoalSocket(){
         try{ //소켓 및 기본적인 스트림 열기
             sockAddr = new InetSocketAddress(SERVER_IP, SERVER_PORT);
             socket.connect(sockAddr);

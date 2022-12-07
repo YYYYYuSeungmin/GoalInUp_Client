@@ -1,16 +1,17 @@
 package Controller;
 
-import DAO.GoalHandler;
+import DAO.GoalSocket;
 import Entity.Goal;
 import UI.AddGoalUI;
 import UI.MainUI;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class AddGoalContorller {
     AddGoalUI addgoalUI;
-    GoalHandler goalHandle;
+    GoalSocket goalSocket;
     String userID;
 
     MainUI mUI;
@@ -37,14 +38,14 @@ public class AddGoalContorller {
     }
 
     public void insertGoal(){
-        goalHandle = new GoalHandler();
-        boolean check = goalHandle.insertGoal(goal);
+        goalSocket = new GoalSocket();
+        boolean check = goalSocket.insertGoal(goal);
 
         if (check == true){
-            System.out.println("목표 등록 성공");
+            JOptionPane.showMessageDialog(mUI, "목표 등록 완료", "목표 등록", JOptionPane.INFORMATION_MESSAGE);
         }
         else{
-            System.out.println("목표 등록 실패");
+            JOptionPane.showMessageDialog(mUI, "목표 등록 실패", "목표 등록", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -53,8 +54,8 @@ public class AddGoalContorller {
         public void actionPerformed(ActionEvent e){
             createGoal();
             insertGoal();
-            goalHandle = new GoalHandler();
-            mUI.setGoalList(goalHandle.getGoalList(userID));
+            goalSocket = new GoalSocket();
+            mUI.setGoalList(goalSocket.getGoalList(userID));
 
             mUI.removeGoalPanel();
             mUI.drawTodayGoal();

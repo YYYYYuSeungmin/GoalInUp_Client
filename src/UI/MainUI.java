@@ -37,6 +37,7 @@ public class MainUI extends JFrame implements ListSelectionListener {
     JProgressBar progressRate = new JProgressBar(0, 100);
 
     JLabel nameLabel = new JLabel();
+    JButton infoButton = new JButton();
     JButton addGoalBtn;
     DefaultListModel model;
     ArrayList<Goal> goalList;
@@ -57,11 +58,13 @@ public class MainUI extends JFrame implements ListSelectionListener {
         this.setLocationRelativeTo(null);
         this.setVisible(true);
 
-        nameLabel.setSize(300, 50);
-        nameLabel.setText(userName + "님 환영합니다 !");
-        nameLabel.setFont(new Font("SanSerif", Font.BOLD, 25));
-        nameLabel.setLocation(1380, 10);
-        this.add(nameLabel);
+        infoButton.setSize(150, 50);
+        infoButton.setText("회원정보");
+        infoButton.setFont(new Font("SanSerif", Font.BOLD, 25));
+        infoButton.setOpaque(true);
+        infoButton.setBackground(Color.lightGray);
+        infoButton.setLocation(1605, 10);
+        this.add(infoButton);
     }
 
     public void setGoalList(ArrayList<Goal> goalList){
@@ -70,6 +73,12 @@ public class MainUI extends JFrame implements ListSelectionListener {
 
     //MainUI 전체를 그리는 메서드 (메서드 호출)
     public void drawAll() {
+        nameLabel.setSize(300, 50);
+        nameLabel.setText(userName + "님 환영합니다 !");
+        nameLabel.setFont(new Font("SanSerif", Font.BOLD, 25));
+        nameLabel.setLocation(1330, 10);
+        this.add(nameLabel);
+
         drawCalendar();
         drawTodayGoal();
 
@@ -178,11 +187,14 @@ public class MainUI extends JFrame implements ListSelectionListener {
     public void setAddGoalBtnListener(ActionListener listener){
         addGoalBtn.addActionListener(listener);
     }
+    public void setInfoButtonListener(ActionListener listener){
+        infoButton.addActionListener(listener);
+    }
     public DefaultListModel createModel() {
         model = new DefaultListModel();
         selectGoalList = new ArrayList<>();
         count = goalList.size();
-
+        System.out.println("COUNT : " + count);
         for (int i = 0; i < count; i++) {
             boolean check = MainUI.compareDay(goalList.get(i).getStartDay(), goalList.get(i).getEndDay(), selectDay);
 

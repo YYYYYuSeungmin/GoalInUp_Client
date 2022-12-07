@@ -7,18 +7,18 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class UserDAO {
+public class UserSocket {
     Socket socket = new Socket();
     InetSocketAddress sockAddr = null;
     String SERVER_IP = "192.168.13.1";
-    int SERVER_PORT = 6420;
+    int SERVER_PORT = 1234;
 
     InputStream is;
     OutputStream os;
     BufferedReader br = null;
     PrintWriter pw = null;
 
-    public UserDAO(){
+    public UserSocket(){
         try{ //소켓 및 기본적인 스트림 열기
             sockAddr = new InetSocketAddress(SERVER_IP, SERVER_PORT);
             socket.connect(sockAddr);
@@ -95,6 +95,63 @@ public class UserDAO {
 
         return user;
     }
+    public boolean updateMember(User user){
+        String msg = null;
+        boolean check = false;
+        try{
+            msg = "A03"; //멤버 수정 요청
+            pw.println(msg);
+            pw.flush();
+
+            pw.println(user.getId());
+            pw.println(user.getPw());
+            pw.println(user.getName());
+            pw.println(user.getBirth());
+            pw.println(user.getPhoneNum());
+            pw.flush();
+            System.out.println("전송 완료");
+            check = Boolean.parseBoolean(br.readLine());
+            System.out.println("체크 결과 : " + check);
+
+        } catch (UnknownHostException e){
+            System.out.println("Unknown Host");
+        } catch (IOException e){
+            e.printStackTrace();
+        } finally {
+            closeSocket();
+        }
+
+        if (check == true){
+            return true;
+        }
+        else return false;
+    }
+
+    public boolean deleteMember(String userID){
+        String msg = "A04"; //멤버 삭제 요청
+        boolean check = false;
+
+        try{
+            pw.println(msg);
+            pw.flush();
+            //삭제요청
+
+            pw.println(userID);
+            pw.flush();
+
+            check = Boolean.parseBoolean(br.readLine());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            closeSocket();
+        }
+
+        if (check == true){
+            return true;
+        }
+        else return false;
+    }
+
     private void closeSocket(){
         try {
             if (br != null) br.close();

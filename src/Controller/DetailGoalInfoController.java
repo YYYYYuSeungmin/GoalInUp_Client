@@ -1,14 +1,17 @@
 package Controller;
 
-import DAO.DetailGoalHandler;
+import DAO.DetailGoalSocket;
 import Entity.DetailGoal;
 import Entity.Goal;
 import UI.DetailGoalInfoUI;
 import UI.GoalUI;
 import UI.MainUI;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 
 public class DetailGoalInfoController {
     GoalUI goalUI;
@@ -17,7 +20,7 @@ public class DetailGoalInfoController {
     DetailGoal detailGoal;
     DetailGoalInfoUI detailGoalInfoUI;
 
-    DetailGoalHandler detailGoalHandler;
+    DetailGoalSocket detailGoalSocket;
     public DetailGoalInfoController(GoalUI goalUI, Goal goal, DetailGoal detailGoal, MainUI mainUI){
         this.goalUI = goalUI;
         this.detailGoal = detailGoal;
@@ -39,14 +42,30 @@ public class DetailGoalInfoController {
         detailGoal.setEndDay(detailGoalInfoUI.getDetailGOalEndDay());
         detailGoal.setGoal(detailGoalInfoUI.getSuccess());
 
-        detailGoalHandler = new DetailGoalHandler();
-        detailGoalHandler.updateDetailGoal(detailGoal);
+        detailGoalSocket = new DetailGoalSocket();
+        boolean check = detailGoalSocket.updateDetailGoal(detailGoal);
+        
+        if (check == true) {
+            JOptionPane.showMessageDialog(goalUI, "세부목표 수정 완료", "세부목표 수정 결과", INFORMATION_MESSAGE);
+            Start.createLogin();
+
+        } else {
+            JOptionPane.showMessageDialog(goalUI, "세부목표 수정 실팰", "세부목표 수정 결과", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public void deleteDetailGoal(){
 
-        detailGoalHandler = new DetailGoalHandler();
-        detailGoalHandler.deleteDetailGoal(detailGoalInfoUI.getDetailG_ID());
+        detailGoalSocket = new DetailGoalSocket();
+        boolean check = detailGoalSocket.deleteDetailGoal(detailGoalInfoUI.getDetailG_ID());
+
+        if (check == true) {
+            JOptionPane.showMessageDialog(goalUI, "세부목표 삭제 완료", "세부목표 삭제 결과", INFORMATION_MESSAGE);
+            Start.createLogin();
+
+        } else {
+            JOptionPane.showMessageDialog(goalUI, "세부목표 삭제 실팰", "세부목표 삭제 결과", JOptionPane.ERROR_MESSAGE);
+        }
     }
     class detailGoalInfoUpdateBtnListener implements ActionListener{
         @Override
@@ -54,7 +73,6 @@ public class DetailGoalInfoController {
             updateDetailGoal();
             detailGoalInfoUI.dispose();
             goalUI.dispose();
-            Start.createGoalController(goal, mainUI);
         }
     }
     class detailGoalInfoDeleteBtnListener implements ActionListener{
@@ -63,7 +81,6 @@ public class DetailGoalInfoController {
             deleteDetailGoal();
             detailGoalInfoUI.dispose();
             goalUI.dispose();
-            Start.createGoalController(goal, mainUI);
         }
     }
 }

@@ -1,13 +1,13 @@
 package Controller;
 
-import DAO.DetailGoalHandler;
-import DAO.GoalHandler;
+import DAO.DetailGoalSocket;
+import DAO.GoalSocket;
 import Entity.DetailGoal;
 import Entity.Goal;
-import UI.AddDetailGoalUI;
 import UI.GoalUI;
 import UI.MainUI;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -15,8 +15,8 @@ import java.util.ArrayList;
 public class GoalController {
     Goal goal = new Goal();
     MainUI mUI;
-    DetailGoalHandler detailHandle;
-    GoalHandler goalHandler;
+    DetailGoalSocket detailHandle;
+    GoalSocket goalSocket;
     ArrayList<DetailGoal> detailGoalList;
 
     GoalUI gUI;
@@ -29,7 +29,7 @@ public class GoalController {
     }
 
     public void drawGoalUI(Goal goal){
-        detailHandle = new DetailGoalHandler();
+        detailHandle = new DetailGoalSocket();
         detailGoalList = detailHandle.getDetailGoals(goal.getgID());
 
         gUI = new GoalUI(goal, detailGoalList, mUI);
@@ -43,11 +43,18 @@ public class GoalController {
     class remmoveGoalButtonListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e){
-            goalHandler = new GoalHandler();
-            goalHandler.removeGoal(goal);
+            goalSocket = new GoalSocket();
+            boolean check = goalSocket.removeGoal(goal);
 
-            goalHandler = new GoalHandler();
-            mUI.setGoalList(goalHandler.getGoalList(goal.getUserID()));
+            if (check == true){
+                JOptionPane.showMessageDialog(mUI, "목표 삭제 완료", "목표 삭제", JOptionPane.INFORMATION_MESSAGE);
+            }
+            else{
+                JOptionPane.showMessageDialog(mUI, "목표 삭제 실패", "목표 삭제", JOptionPane.ERROR_MESSAGE);
+            }
+
+            goalSocket = new GoalSocket();
+            mUI.setGoalList(goalSocket.getGoalList(goal.getUserID()));
             mUI.removeGoalPanel();
             mUI.drawTodayGoal();
             gUI.dispose();

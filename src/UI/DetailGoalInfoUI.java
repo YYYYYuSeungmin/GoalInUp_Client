@@ -110,8 +110,13 @@ public class DetailGoalInfoUI extends JFrame {
             OXBox.add(goalSuccess[i]);
             this.add(goalSuccess[i]);
         }
-        goalSuccess[0].setSelected(false);
-        goalSuccess[1].setSelected(true);
+        if (goal.isGoal()){
+            goalSuccess[0].setSelected(true);
+            goalSuccess[1].setSelected(false);
+        } else{
+            goalSuccess[0].setSelected(false);
+            goalSuccess[1].setSelected(true);
+        }
 
         updateButton.setText("수정완료");
         updateButton.setFont(new Font("SanSerif", Font.BOLD, 20));

@@ -1,16 +1,19 @@
 package Controller;
 
-import DAO.UserDAO;
+import DAO.UserSocket;
 import Entity.User;
 import UI.RegisterUI;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 
 public class RegisterController {
     RegisterUI regUI;
     User user;
-    UserDAO uDAO;
+    UserSocket uDAO;
 
     public RegisterController(){
         user = new User();
@@ -30,23 +33,23 @@ public class RegisterController {
     class registerButtonListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            uDAO = new UserDAO();
+            uDAO = new UserSocket();
 
             user.setId(regUI.getInputID());
             user.setPw(regUI.getInputPW());
-            user.setName(regUI.getName());
+            user.setName(regUI.getInputName());
             user.setBirth(regUI.getInputBirth());
             user.setPhoneNum(regUI.getInputPhone());
 
             boolean check = uDAO.registerMember(user);
-            System.out.println(check);
+
             if (check == true) {
                 regUI.dispose();
                 Start.createLogin();
-
+                JOptionPane.showMessageDialog(regUI, "회원가입 성공", "회원가입 결과", INFORMATION_MESSAGE);
             } else {
                 regUI.resetLabel();
-                //정보를 올바르게 입력해주세요. (대화형 옵션)
+                JOptionPane.showMessageDialog(regUI, "회원가입 실패", "회원가입 결과", JOptionPane.ERROR_MESSAGE);
             }
         }
     }

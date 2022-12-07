@@ -1,28 +1,25 @@
 package Controller;
 
-import DAO.GoalHandler;
+import DAO.GoalSocket;
 import Entity.Goal;
 import Entity.User;
-import UI.AddGoalUI;
 import UI.Calendar;
 import UI.MainUI;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class MainController {
     ArrayList<Goal> goalList;
-    GoalHandler gHandle;
+    GoalSocket gHandle;
     Calendar calendar;
     User user;
     MainUI mUI;
 
     AddGoalContorller addGoalContorller;
+    AccountInfoController accountInfoController;
     public MainController(User user){
         this.user = user;
         calendar = new Calendar();
@@ -36,19 +33,24 @@ public class MainController {
         calendar.setnextMonthBtnListener(new nextMonthListener());
     }
     private void drawTodayGoal(String userID){
-        gHandle = new GoalHandler();
+        gHandle = new GoalSocket();
         goalList = gHandle.getGoalList(userID);
         mUI = new MainUI(goalList, userID, calendar);
         mUI.drawAll();
 
         mUI.setAddGoalBtnListener(new createGoalButtonListener());
+        mUI.setInfoButtonListener(new InfoButtonListener());
         calendar.setdayBtnListener(new dayButtonListener());
         calendar.setprevMonthBtnListener(new prevMonthListener());
         calendar.setnextMonthBtnListener(new nextMonthListener());
     }
 
-    public void createAddGoalController(){
+    private void createAddGoalController(){
         addGoalContorller = new AddGoalContorller(user.getId(), mUI);
+    }
+
+    private void createAccountInfoController(){
+        accountInfoController = new AccountInfoController(user, mUI);
     }
     class dayButtonListener implements ActionListener{
         @Override
@@ -67,6 +69,7 @@ public class MainController {
             mUI.removeGoalPanel();
             mUI.drawTodayGoal();
             mUI.setAddGoalBtnListener(new createGoalButtonListener());
+            mUI.setInfoButtonListener(new InfoButtonListener());
         }
     }
 
@@ -102,6 +105,13 @@ public class MainController {
         @Override
         public void actionPerformed(ActionEvent e){
             createAddGoalController();
+        }
+    }
+
+    class InfoButtonListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e){
+            createAccountInfoController();
         }
     }
 }

@@ -1,16 +1,18 @@
 package Controller;
 
-import DAO.UserDAO;
+import DAO.UserSocket;
 import Entity.User;
 import UI.LoginUI;
-import UI.MainUI;
 
+import javax.swing.JOptionPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
+
 public class LoginController {
     LoginUI lUI;
-    UserDAO uDAO;
+    UserSocket uDAO;
 
     public LoginController(){
         lUI = new LoginUI();
@@ -31,7 +33,7 @@ public class LoginController {
     class loginButtonListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e){
-            uDAO= new UserDAO();
+            uDAO= new UserSocket();
             User user = new User();
 
             String id = lUI.getIDLabel();
@@ -41,12 +43,14 @@ public class LoginController {
 
             if (user != null){
                 System.out.println("로그인 성공");
+                JOptionPane.showMessageDialog(lUI, "로그인 성공", "로그인 결과", INFORMATION_MESSAGE);
                 lUI.dispose();
 
                 Start.createMain(user);
             }
             else {
                 System.out.println("로그인 실패");
+                JOptionPane.showMessageDialog(lUI, "로그인 실패", "로그인 결과", JOptionPane.ERROR_MESSAGE);
             }
         }
     }

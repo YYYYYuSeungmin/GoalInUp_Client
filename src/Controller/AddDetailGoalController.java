@@ -1,18 +1,21 @@
 package Controller;
 
-import DAO.DetailGoalHandler;
+import DAO.DetailGoalSocket;
 import Entity.DetailGoal;
 import Entity.Goal;
 import UI.AddDetailGoalUI;
 import UI.GoalUI;
 import UI.MainUI;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
+
 public class AddDetailGoalController {
     AddDetailGoalUI addDetailGoalUI;
-    DetailGoalHandler detailGoalHandler;
+    DetailGoalSocket detailGoalSocket;
     Goal goal;
     GoalUI goalUI;
     MainUI mainUI;
@@ -37,13 +40,14 @@ public class AddDetailGoalController {
         detailGoal.setGoal(addDetailGoalUI.isSuccess());
     }
     public void insertDetailGoal(){
-        detailGoalHandler = new DetailGoalHandler();
-        boolean check = detailGoalHandler.insertDetailGoal(detailGoal);
-        if (check == true){
-            System.out.println("세부 목표 등록 성공");
-        }
-        else{
-            System.out.println("세부 목표 등록 실패");
+        detailGoalSocket = new DetailGoalSocket();
+        boolean check = detailGoalSocket.insertDetailGoal(detailGoal);
+
+        if (check == true) {
+            JOptionPane.showMessageDialog(goalUI, "세부목표 등록 완료", "세부목표 등록 결과", INFORMATION_MESSAGE);
+
+        } else {
+            JOptionPane.showMessageDialog(goalUI, "세부목표 등록 실패", "세부목표 등록 결과", JOptionPane.ERROR_MESSAGE);
         }
     }
     class addGoalButtonListener implements ActionListener{
@@ -55,7 +59,6 @@ public class AddDetailGoalController {
 
             addDetailGoalUI.dispose();
             goalUI.dispose();
-            Start.createGoalController(goal, mainUI);
         }
     }
 }
